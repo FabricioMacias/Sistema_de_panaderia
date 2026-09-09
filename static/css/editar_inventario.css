@@ -1,0 +1,141 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html,
+body {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+body {
+    background-color: #8B5E3C;
+    /* fondo */
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+
+/* Tarjeta */
+.card {
+    width: 100%;
+    max-width: 500px;
+    margin: 0 auto;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    padding: 25px;
+    border: 1px solid #ddd;
+}
+
+.card h4 {
+    color: #333;
+    font-weight: 600;
+    margin-bottom: 20px;
+    font-size: 1.3rem;
+}
+
+.alert-secondary {
+    background-color: #fff3e0;
+
+}
+
+/* Estilos para los inputs */
+input,
+select,
+textarea {
+    font-size: 14px !important;
+    border-radius: 6px !important;
+    border: 1px solid #ddd !important;
+    background-color: #fff !important;
+    transition: all 0.2s ease;
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+    border-color: #80bdff !important;
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25) !important;
+    outline: none !important;
+}
+
+/* Labels */
+label {
+    margin-bottom: 5px;
+    display: inline-block;
+    color: #333;
+    font-weight: 600;
+    font-size: 13px;
+}
+
+
+/* Botón Volver */
+.btn-secondary {
+    background-color: #6c757d;
+    border: none;
+    transition: all 0.2s ease;
+}
+
+.btn-secondary:hover {
+    background-color: #5a6268;
+}
+
+/* Botón Guardar */
+.btn-success {
+    background-color: #28a745;
+    border: none;
+    transition: all 0.2s ease;
+}
+
+.btn-success:hover {
+    background-color: #218838;
+}
+
+/* Focus en inputs */
+input:focus,
+select:focus {
+    border-color: #80bdff !important;
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25) !important;
+    outline: none !important;
+}
+
+label {
+    margin-bottom: 5px;
+    display: inline-block;
+    color: #333;
+    font-weight: 600;
+    font-size: 13px;
+}
+
+/* Para pantallas más pequeñas */
+@media (max-width: 768px) {
+    .card-custom {
+        padding: 15px;
+        margin: 10px;
+    }
+
+    .main-container {
+        padding: 10px;
+    }
+}
+
+/* ===== FOOTER PROFESIONAL ===== */
+.pie-pagina{
+    background: #111; /* negro elegante */
+    color: #d6d6d6;
+    text-align: center;
+    padding: 12px 0;
+    font-size: 15px;
+    letter-spacing: 0.5px;
+
+    width: 100%;
+    margin-top: auto; /* lo empuja hacia abajo */
+}
+.container-fluid {
+    flex: 1;
+}

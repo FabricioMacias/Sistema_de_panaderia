@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Factura - Panaderia Manabita</title>
+
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/static/css/factura.css">
+</head>
+<body>
+
+<div class="factura-container">
+    <div class="ticket">
+        <!-- Encabezado -->
+        <h3> Panadería Manabita</h3>
+        <div class="fecha">
+            {{ venta.fecha.strftime('%d/%m/%Y') if venta.fecha else '' }} | 
+            {{ venta.fecha.strftime('%H:%M') if venta.fecha else '' }}
+        </div>
+        
+        <div class="line"></div>
+
+        <!-- Tabla de productos -->
+        <div class="table-container">
+            <table class="table-custom">
+                <thead>
+                    <tr>
+                        <th>Producto</th>
+                        <th>Cant</th>
+                        <th>Precio</th>
+                        <th>Subtotal</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for detalle in detalles %}
+                    <tr>
+                        <td>{{ detalle.nombre }}</td>
+                        <td>{{ detalle.cantidad }}</td>
+                        <td>${{ "%.2f"|format(detalle.precio|float) }}</td>
+                        <td>${{ "%.2f"|format(detalle.subtotal|float) }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <div class="line"></div>
+
+        <!-- Totales -->
+        <div class="totales">
+            <div class="total-row">
+                <strong>SUBTOTAL:</strong>
+                <span>${{ "%.2f"|format(venta.total|float) }}</span>
+            </div>
+            <div class="total-row">
+                <strong>PAGO:</strong>
+                <span>${{ "%.2f"|format(venta.pago|float) }}</span>
+            </div>
+            <div class="total-row">
+                <strong>CAMBIO:</strong>
+                <span class="text-success">${{ "%.2f"|format(venta.cambio|float) }}</span>
+            </div>
+            <div class="total-row total-final">
+                <strong>TOTAL:</strong>
+                <strong>${{ "%.2f"|format(venta.total|float) }}</strong>
+            </div>
+        </div>
+
+        <div class="line-doble"></div>
+
+        <!-- Mensaje final -->
+        <div class="mensaje-final">
+            <p class="gracias">¡Gracias por su compra!</p>
+            <p>Vuelva pronto</p>
+            <p style="font-size: 10px; color: #999;"> ¡Disfrute su pedido! </p>
+        </div>
+
+        <!-- Botones -->
+        <div class="botones">
+            <button onclick="window.print()" class="btn-custom btn-print">
+                 Imprimir
+            </button>
+            <a href="/producto?seccion=ventas" class="btn-custom btn-back">
+                 Volver
+            </a>
+        </div>
+    </div>
+</div>
+<script src="/static/js/main.js"></script>
+</body>
+</html>

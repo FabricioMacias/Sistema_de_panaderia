@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login de Panaderia</title>
+
+    <link rel="stylesheet" href="/static/css/login.css">
+    <!-- BOOTSTRAP -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+</head>
+
+<body>
+    <div class="fondo">
+
+        <div class="container-fluid vh-100 d-flex justify-content-center align-items-center">
+
+            <div class="col-11 col-sm-8 col-md-6 col-lg-4">
+
+                <div class="card p-4 login-card">
+
+                    <h3 class="text-center mb-4">Iniciar Sesion</h3>
+
+                    <form action="/login" method="POST">
+
+                        <div class="mb-3 input-box">
+                            <label class="form-label"><strong>Usuario</strong></label>
+                            <input type="text" name="username" class="form-control" placeholder="Ingrese su usuario"
+                                required>
+                        </div>
+
+                        <div class="mb-3" input-box>
+                            <label class="form-label"><strong>Contraseña</strong></label>
+                            <input type="password" name="password" class="form-control"
+                                placeholder="Ingrese su contraseña" required><br><br>
+                        </div>
+                        <button type="submit" class="btn btn-success w-100">Ingresar</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <footer class="pie-pagina">
+            <span>© Copyright <span id="anioActual"></span> – Panadería y Pastelería Manabita</span>
+        </footer>
+    </div>
+    <script src="/static/js/anioactual.js"></script>
+</body>
+
+</html>

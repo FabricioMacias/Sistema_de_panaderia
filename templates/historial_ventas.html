@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Historial de ventas - Panaderia</title>
+</head>
+<body>
+<div class="card shadow-lg border-0 id=historialVentas">
+    <div class="card-header bg-dark text-white d-flex justify-content-between align-items-center">
+        <h4 class="mb-0"> Historial de Ventas</h4>
+        <div>
+            <span class="badge bg-info me-2" id="totalVentasLabel"> Total: $0</span>
+            <span class="badge bg-success" id="cantidadVentasLabel"> Ventas: 0</span>
+        </div>
+    </div>
+    <div class="card-body">
+        <div class="row mb-3">
+            <div class="col-md-3">
+                <input type="date" id="filtroFecha" class="form-control" onchange="filtrarVentasPorFecha()">
+            </div>
+            <div class="col-md-3">
+                <button class="btn btn-success w-100" onclick="exportarExcelVentas()">
+                     Exportar a Excel
+                </button>
+            </div>
+            <div class="col-md-2">
+                <button class="btn btn-secondary w-100" onclick="cargarVentas()">
+                     Actualizar
+                </button>
+            </div>
+        </div>
+        <div class="table-responsive">
+            <table class="table table-bordered table-hover" id="tablaVentas">
+                <thead class="table-dark">
+                    <tr style="text-align: center;">
+                        <th>ID</th>
+                        <th>Fecha</th>
+                        <th>Hora</th>
+                        <th>Total</th>
+                        <th>Pago</th>
+                        <th>Cambio</th>
+                        <th>Vendedor</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody id="tbodyVentas">
+                    <tr>
+                        <td colspan="7" class="text-center">
+                            <div class="spinner-border text-primary" role="status">
+                                <span class="visually-hidden">Cargando...</span>
+                            </div>
+                            Cargando ventas...
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>    
+<script src="/static/js/main.js"></script>
+</body>
+</html>

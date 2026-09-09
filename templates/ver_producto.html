@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>Ver Producto - Panadera</title>
+    <!-- BOOTSTRAP -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!--CSS-->
+    <link rel="stylesheet" href="/static/css/ver_producto.css">
+</head>
+
+<body>
+    <main>
+        <div class="main-container">
+            <div class="card-custom">
+                <h4 class="text-center">Ver Producto</h4>
+                <div class="producto-id">
+                    <strong>ID:</strong> {{ producto.id }}
+                </div>
+                <div class="imagen-actual">
+                    <label class="form-label fw-bold">Imagen actual:</label><br>
+                    {% if producto.imagen and producto.imagen != '' %}
+                    <img src="{{ url_for('static', filename='uploads/' + producto.imagen) }}"
+                        alt="{{ producto.nombre }}"
+                        onerror="this.src='https://via.placeholder.com/120x120?text=No+Image'">
+                    {% else %}
+                    <img src="https://via.placeholder.com/120x120?text=Sin+Imagen" alt="Sin imagen">
+                    {% endif %}
+                </div>
+                <hr>
+                <div class="info-item">
+                    <span class="info-label">Nombre</span>
+                    <span class="info-value">{{ producto.nombre }}</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">Precio</span>
+                    <span class="info-value precio-value">${{ "%.2f"|format(producto.precio) }}</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">Stock</span>
+                    <span class="info-value">
+                        {% if producto.stock == 0 %}
+                        <span class="stock-agotado"> Agotado</span>
+                        {% elif producto.stock < 5 %} <span class="stock-bajo"> Stock Bajo ({{ producto.stock }}
+                            unidades)</span>
+                    {% elif producto.stock < 30 %} <span class="stock-medio"> Stock Medio ({{ producto.stock }}
+                        unidades)</span>
+                        {% else %}
+                        <span class="stock-alto"> Stock Alto ({{ producto.stock }} unidades)</span>
+                        {% endif %}
+                        </span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">Tipo</span>
+                    <span class="info-value">
+                        {% if producto.tipo == 'producto' %}
+                        <span class="badge-producto">Producto Venta</span>
+                        {% else %}
+                        <span class="badge-materia">Materia Prima</span>
+                        {% endif %}
+                    </span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">Categoría</span>
+                    <span class="info-value">{{ producto.categoria if producto.categoria else 'General' }}</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">Temporada</span>
+                    <span class="info-value">{{ producto.temporada if producto.temporada else 'Sin temporada'
+                        }}</span>
+                </div>
+
+                <div class="info-item">
+                    <span class="info-label">Descripción</span>
+                    <span class="info-value">{{ producto.descripcion if producto.descripcion else 'Sin descripción'
+                        }}</span>
+                </div>
+                <hr>
+                <div class="text-center mb-2">
+                    <small class="text-muted">
+                        Fecha: {{ producto.fecha_actualizacion.strftime('%Y-%m-%d %H:%M') if
+                        producto.fecha_actualizacion
+                        else 'N/A' }}
+                    </small>
+                </div>
+                <a href="/producto?seccion=productos" class="btn-volver">Volver</a>
+            </div>
+        </div>
+    </main>
+    <footer class="pie-pagina">
+        <span>© Copyright <span id="anioActual"></span> – Panadería y Pastelería Manabita</span>
+    </footer>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="/static/js/anioactual.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,97 @@
+<div id="ventas" class="seccion" style="display:none;">
+    <div class="container mt-4">
+
+        <!-- BOTONES DE NAVEGACIÓN -->
+        <div class="mb-4">
+            <button id="btnNuevaVenta" class="btn btn-dark btn-lg me-2" onclick="mostrarNuevaVenta()">
+                Nueva Venta
+            </button>
+            <button id="btnHistorialVentas" class="btn btn-outline-dark btn-lg" onclick="mostrarHistorialVentas()">
+                Historial de Ventas
+            </button>
+        </div>
+        <div id="formularioVenta" style="display: block;">
+            <div class="card shadow-lg border-0">
+                <div class="card-header bg-dark text-white">
+                    <h4 class="mb-0"> Registro de Ventas</h4>
+                </div>
+                <div class="card-body">
+                    <form action="/registrar_venta" method="POST" id="ventaForm">
+
+                        <!-- CONTENEDOR DE PRODUCTOS -->
+                        <div id="productos-container">
+                            <div class="row g-3 mb-3 align-items-end" id="productoRow1">
+                                <div class="col-md-3">
+                                    <h6 class="text-muted">Producto 1</h6>
+                                    <label class="form-label fw-bold"> ID Producto</label>
+                                    <input type="text" class="form-control input-id" placeholder="Ej: P01"
+                                        oninput="buscarPorId(this, 1)">
+                                </div>
+
+                                <div class="col-md-3">
+                                    <label class="form-label fw-bold"> Producto</label>
+                                    <select name="producto_id[]" class="form-select select-producto" data-index="1"
+                                        onchange="actualizarPrecio(1)" required>
+                                        <option value="">Seleccione producto</option>
+                                        {% for p in productos_venta %}
+                                        <option value="{{ p.id }}" data-precio="{{ p.precio }}"
+                                            data-nombre="{{ p.nombre }}" data-stock="{{ p.stock }}"
+                                            data-imagen="{{ p.imagen }}">
+                                            {{ p.nombre }} - (Stock: {{ p.stock }})
+                                        </option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+
+                                <div class="col-md-3">
+                                    <label class="form-label fw-bold"> Cantidad</label>
+                                    <input name="cantidad[]" min="1" type="number" class="form-control cantidad-input"
+                                        data-index="1" placeholder="Ej: 2" required oninput="calcularTotalGeneral()">
+                                </div>
+
+                                <div class="col-md-3 d-flex justify-content-center align-items-center">
+                                    <div id="imagenProducto1">
+                                        <img src="https://via.placeholder.com/80x80?text=Producto"
+                                            style="width: 80px; height: 80px; object-fit: cover; border-radius: 10px;">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <button type="button" onclick="agregarProducto()" class="btn btn-outline-secondary">
+                                + Agregar otro producto
+                            </button>
+                        </div>
+                        <hr class="my-4">
+                        <!-- RESUMEN DE PAGO -->
+                        <div class="row g-3">
+                            <div class="col-md-4">
+                                <label class="form-label fw-bold"> Pago del cliente</label>
+                                <input name="pago" id="pago" type="number" step="0.01" min="1" class="form-control"
+                                    placeholder="Ej: 10.00" required oninput="calcularCambio()">
+                            </div>
+                            <div class="col-md-4">
+                                <label class="form-label fw-bold"> Total</label>
+                                <input id="total" class="form-control bg-light text-success fw-bold fs-5" readonly
+                                    value="0.00">
+                            </div>
+                            <div class="col-md-4">
+                                <label class="form-label fw-bold"> Cambio</label>
+                                <input id="cambio" class="form-control bg-light text-primary fw-bold fs-5" readonly
+                                    value="0.00">
+                            </div>
+                        </div>
+                        <div class="text-end mt-4">
+                            <button type="button" class="btn btn-success btn-lg px-5" onclick="validarVenta()">
+                                Realizar Venta
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div id="historialVenta" style="display: none;">
+            {% include 'historial_ventas.html' %}
+        </div>
+    </div>
+</div>

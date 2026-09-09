@@ -1,0 +1,96 @@
+<link rel="stylesheet" href="/static/css/index.css">
+{% if rol == 'administrador' %}
+<div id="inventario" class="seccion" style="display:none;">
+    <h2>Inventario</h2>
+    <div class="d-flex justify-content-between mb-3">
+
+        <a href="/exportar_excel" class="btn btn-success">
+            Exportar Excel
+        </a>
+    </div>
+    <!-- BUSCADOR INVENTARIO -->
+    <div class="mb-3">
+        <input type="text" id="buscarInventario" class="form-control" placeholder="Buscar por ID del producto..."
+            onkeyup="buscarInventarioPorId()">
+    </div>
+
+    <!-- MENSAJE NO ENCONTRADO -->
+    <div id="mensajeNoEncontradoInventario" class="alert alert-danger" style="display: none;">
+        No se encontró el producto con ID:
+        <strong id="idBuscadoInventario"></strong>
+    </div>
+    <!-- AGREGAR STOCK -->
+    <div class="card-custom">
+        <form action="/agregar_inventario" method="POST" class="row g-2">
+            <div class="col-md-5">
+                <input type="text" name="producto_id" class="form-control" placeholder="Código Producto (Ej: P01)"
+                    required>
+            </div>
+            <div class="col-md-5">
+                <input type="number" name="cantidad" min="1" class="form-control" placeholder="Cantidad" required>
+            </div>
+            <div class="col-md-2">
+                <button class="btn btn-success w-100">Agregar</button>
+            </div>
+        </form>
+    </div>
+    <div class="productos-grid" id="gridInventario">
+        {% for p in productos %}
+        <div class="producto-card" data-producto-id="{{ p.id }}">
+            <div class="producto-imagen">
+                {% if p.imagen and p.imagen != '' %}
+                <img src="{{ url_for('static', filename='uploads/' + p.imagen) }}" alt="{{ p.nombre }}"
+                    onerror="this.src='https://via.placeholder.com/100x100?text=Producto'">
+                {% else %}
+                <img src="https://via.placeholder.com/100x100?text=Producto" alt="{{ p.nombre }}">
+                {% endif %}
+            </div>
+            <div class="producto-info">
+                <h4 style="color: #111; margin-bottom: 8px;">{{ p.nombre }}</h4>
+
+                <p><strong>ID:</strong> {{ p.id }}</p>
+
+                <p><strong>Grupo:</strong>
+                    {% if p.tipo == 'producto' %}
+                    <span class="badge bg-success">Producto</span>
+                    {% else %}
+                    <span class="badge bg-secondary">Materia Prima</span>
+                    {% endif %}
+                </p>
+
+                <p><strong>Stock:</strong>
+                    {% if p.stock < 5 %} <span class="text-danger fw-bold">{{ p.stock }}</span>
+                        {% else %}
+                        {{ p.stock }}
+                        {% endif %}
+                </p>
+
+                <p><strong>Estado:</strong>
+                    {% if p.tipo == 'producto' %}
+                    <span class="badge bg-danger">Salida</span>
+                    {% else %}
+                    <span class="badge bg-success">Entrada</span>
+                    {% endif %}
+                </p>
+
+                <p><strong>Fecha:</strong> {{ p.fecha_actualizacion.strftime('%Y-%m-%d') if
+                    p.fecha_actualizacion else 'N/A' }}</p>
+
+                <!-- BOTONES DE ACCIÓN (IGUALES QUE EN LA TABLA) -->
+                <div class="acciones-botones" style="margin-top: 10px;">
+                    <a href="/editar_inventario/{{p.id}}" class="btn btn-warning btn-sm">
+                        Actualizar
+                    </a>
+                    <form action="/eliminar_inventario/{{ p.id }}" method="POST" style="display:inline;"
+                        onsubmit="return confirm('¿Seguro que deseas eliminar este producto del inventario?');">
+                        <button type="submit" class="btn btn-danger btn-sm">
+                            Eliminar
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endif %}

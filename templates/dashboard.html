@@ -1,0 +1,179 @@
+<!-- SECCION DASHBOARD ADMINISTRADOR -->
+<div id="dashboard" class="seccion {% if seccion == 'dashboard' or not seccion %}active{% endif %}">
+    <div class="container mt-4">
+        <h2 class="mb-1">Dashboard Panaderia</h2>
+        <p class="text-muted mb-4" style="font-size:18px;">Bienvenido, {{ usuario }} — resumen del
+            día
+        </p>
+        {% if stock_bajo > 0 %}
+        <div class="alert alert-warning d-flex align-items-center gap-2 mb-4"
+            style="border-radius:10px;font-size:18px;">
+            <span><strong>Atención:</strong> {{ stock_bajo }} producto(s) con stock bajo.
+                <a href="/producto?seccion=inventario" class="alert-link ms-1">Ver inventario
+                </a></span>
+        </div>
+        {% endif %}
+        <div class="row g-3 mb-4">
+            <div class="col-md-3">
+                <div class="card border-0 shadow-sm text-white h-100" style="background:#0d6efd;border-radius:14px;">
+                    <div class="card-body">
+                        <p class="mb-1" style="font-size:18px;opacity:0.85;">Total Productos</p>
+                        <h2 class="mb-1 fw-bold">{{ total_productos }}</h2>
+                        <span
+                            style="font-size:11px;background:rgba(255,255,255,0.2);border-radius:20px;padding:2px 10px;">En
+                            sistema</span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card border-0 shadow-sm text-white h-100" style="background:#dc3545;border-radius:14px;">
+                    <div class="card-body">
+                        <p class="mb-1" style="font-size:18px;opacity:0.85;">Stock Bajo</p>
+                        <h2 class="mb-1 fw-bold">{{ stock_bajo }}</h2>
+                        <span
+                            style="font-size:11px;background:rgba(255,255,255,0.2);border-radius:20px;padding:2px 10px;">Requiere
+                            atención</span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card border-0 shadow-sm text-white h-100" style="background:#198754;border-radius:14px;">
+                    <div class="card-body">
+                        <p class="mb-1" style="font-size:18px;opacity:0.85;">Valor Inventario</p>
+                        <h2 class="mb-1 fw-bold">${{ "%.2f"|format(valor) }}</h2>
+                        <span
+                            style="font-size:11px;background:rgba(255,255,255,0.2);border-radius:20px;padding:2px 10px;">Actualizado</span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card border-0 shadow-sm h-100" style="background:#ffc107;border-radius:14px;">
+                    <div class="card-body">
+                        <p class="mb-1 text-dark" style="font-size:18px;opacity:0.75;">Ganancias Hoy
+                        </p>
+                        <h2 class="mb-1 fw-bold text-dark">${{ "%.2f"|format(ganancias_hoy) }}</h2>
+                        <span
+                            style="font-size:11px;background:rgba(0,0,0,0.1);border-radius:20px;padding:2px 10px;color:#333;">Del
+                            día</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- TABLA + LATERAL -->
+        <div class="row g-3">
+            <div class="col-md-8">
+                <div class="card shadow-sm border-0" style="border-radius:14px;overflow:hidden;">
+                    <div class="card-header bg-dark text-white d-flex justify-content-between align-items-center">
+                        <span class="fw-semibold">Productos Recientes</span>
+                        <a href="/producto?seccion=productos" class="text-warning text-decoration-none"
+                            style="font-size:12px;">Ver
+                            todos </a>
+                    </div>
+                    <div class="card-body p-0">
+                        <table class="table table-hover mb-0 text-center">
+                            <thead class="table-light">
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Nombre</th>
+                                    <th>Stock</th>
+                                    <th>Tipo</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for p in productos %}
+                                <tr>
+                                    <td class="text-muted" style="font-family:monospace;font-size:18px;">{{ p.id }}
+                                    </td>
+                                    <td>{{ p.nombre }}</td>
+                                    <td>
+                                        {% if p.stock < 5 %} <span class="text-danger fw-bold">{{
+                                            p.stock }} </span>
+                                            {% else %}
+                                            <span class="text-success fw-semibold">{{ p.stock
+                                                }}</span>
+                                            {% endif %}
+                                    </td>
+                                    <td>
+                                        {% if p.tipo == 'producto' %}
+                                        <span class="badge bg-success">Venta</span>
+                                        {% else %}
+                                        <span class="badge bg-secondary">Mat. Prima</span>
+                                        {% endif %}
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4 d-flex flex-column gap-3">
+                <div class="card border-0 shadow-sm" style="border-radius:14px;">
+                    <div class="card-body">
+                        <div class="d-flex align-items-center gap-3 mb-3">
+                            <div
+                                style="width:42px;height:42px;border-radius:50%;background:#0d6efd;display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:700;color:#fff;">
+                                {{ usuario[0]|upper }}
+                            </div>
+                            <div>
+                                <p class="mb-0 fw-semibold">{{ usuario }}</p>
+                                <span class="badge bg-dark">{{ rol }}</span>
+                            </div>
+                        </div>
+                        <hr class="my-2">
+                        <div class="d-flex justify-content-between" style="font-size:18px;">
+                            <span class="text-muted">Estado</span>
+                            <span class="text-success fw-semibold">Activo</span>
+                        </div>
+                        <div class="d-flex justify-content-between mt-1" style="font-size:18px;">
+                            <span class="text-muted">Total productos</span>
+                            <span class="fw-semibold">{{ total_productos }}</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ACCESOS RÁPIDOS -->
+                <div class="card border-0 shadow-sm" style="border-radius:14px;">
+                    <div class="card-body">
+                        <p class="fw-semibold mb-3" style="font-size:18px;">Accesos rápidos</p>
+                        <a href="/producto?seccion=productos"
+                            class="d-flex align-items-center gap-2 text-decoration-none text-dark p-2 rounded mb-2"
+                            style="border:1px solid #e9ecef;font-size:18px;transition:background 0.15s;"
+                            onmouseover="this.style.background='#f8f9fa'" onmouseout="this.style.background='none'">
+                            <span class="badge bg-success p-2"></span>
+                            <div>
+                                <div>Productos</div>
+                                <div class="text-muted" style="font-size:15px;">Gestionar catálogo
+                                </div>
+                            </div>
+                        </a>
+                        <a href="/producto?seccion=inventario"
+                            class="d-flex align-items-center gap-2 text-decoration-none text-dark p-2 rounded mb-2"
+                            style="border:1px solid #e9ecef;font-size:18px;transition:background 0.15s;"
+                            onmouseover="this.style.background='#f8f9fa'" onmouseout="this.style.background='none'">
+                            <span class="badge bg-primary p-2"></span>
+                            <div>
+                                <div>Inventario</div>
+                                <div class="text-muted" style="font-size:15px;">Controlar stock
+                                </div>
+                            </div>
+                        </a>
+                        <a href="/producto?seccion=ventas"
+                            class="d-flex align-items-center gap-2 text-decoration-none text-dark p-2 rounded"
+                            style="border:1px solid #e9ecef;font-size:18px;transition:background 0.15s;"
+                            onmouseover="this.style.background='#f8f9fa'" onmouseout="this.style.background='none'">
+                            <span class="badge bg-warning p-2"></span>
+                            <div>
+                                <div>Nueva venta</div>
+                                <div class="text-muted" style="font-size:15px;">Registrar venta
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

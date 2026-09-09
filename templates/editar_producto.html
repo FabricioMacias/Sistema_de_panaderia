@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>Actualizar Producto - Panaderia</title>
+    <!-- BOOTSTRAP -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!--CSS-->
+    <link rel="stylesheet" href="/static/css/editar_producto.css">
+</head>
+
+<body>
+    <div class="main-container">
+        <div class="card-custom">
+
+            <h4 class="text-center"> Actualizar Producto</h4>
+            <div class="producto-id">
+                <strong>ID:</strong> {{ producto.id }}
+            </div>
+
+            <div class="imagen-actual">
+                <label class="form-label fw-bold">Imagen actual:</label><br>
+                {% if producto.imagen and producto.imagen != '' %}
+                <img src="{{ url_for('static', filename='uploads/' + producto.imagen) }}" alt="{{ producto.nombre }}"
+                    onerror="this.src='https://via.placeholder.com/100x100?text=No+Image'">
+                {% else %}
+                <img src="https://via.placeholder.com/100x100?text=Sin+Imagen" alt="Sin imagen">
+                {% endif %}
+            </div>
+
+            <form action="/actualizar_producto/{{ producto.id }}" method="POST" enctype="multipart/form-data">
+
+                <div class="mb-3">
+                    <label class="form-label campo-requerido fw-bold">Nombre</label>
+                    <input type="text" name="nombre" class="form-control" value="{{ producto.nombre }}" required>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label campo-requerido fw-bold">Precio</label>
+                    <input type="number" lang="en" inputmode="decimal" name="precio" step="0.01" min="0" class="form-control" value="{{ producto.precio }}" step="0.01"
+                        required>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label campo-requerido fw-bold">Stock</label>
+                    <input type="number" name="stock" class="form-control" value="{{ producto.stock }}" required
+                        min="0">
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label campo-requerido fw-bold">Tipo</label>
+                    <select name="tipo" class="form-select" required>
+                        <option value="producto" {% if producto.tipo=='producto' or producto.tipo=='P' %}selected{%
+                            endif %}>Producto Venta</option>
+                        <option value="materia_prima" {% if producto.tipo=='materia_prima' or producto.tipo=='M'
+                            %}selected{% endif %}>Materia Prima</option>
+                    </select>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label fw-bold">Categoría</label>
+                    <select name="categoria" class="form-select">
+                        <option value="">Seleccionar categoría</option>
+                        <option value="pan dulce" {% if producto.categoria=='pan dulce' %}selected{% endif %}>Pan Dulce
+                        </option>
+                        <option value="Pasteleria" {% if producto.categoria=='Pasteleria' %}selected{% endif %}>
+                            Pastelería</option>
+                        <option value="salado" {% if producto.categoria=='salado' %}selected{% endif %}>Pan Salado
+                        </option>
+                        <option value="Dietetico" {% if producto.categoria=='Dietetico' %}selected{% endif %}>Dietético
+                        </option>
+                        <option value="Bebidas" {% if producto.categoria=='Bebidas' %}selected{% endif %}>Bebidas
+                        </option>
+                    </select>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label fw-bold">Temporada</label>
+
+                    <select name="temporada" class="form-select" id="select-temporada">
+                        <option value="">Seleccionar temporada</option>
+
+                        <option value="Normal" {% if producto.temporada=='Normal' %}selected{% endif %}>
+                            Normal
+                        </option>
+
+                        <option value="Navidad" {% if producto.temporada=='Navidad' %}selected{% endif %}>
+                            Navidad
+                        </option>
+
+                        <option value="Año Nuevo" {% if producto.temporada=='Año Nuevo' %}selected{% endif %}>
+                            Año Nuevo
+                        </option>
+
+                        <option value="Semana Santa" {% if producto.temporada=='Semana Santa' %}selected{% endif %}>
+                            Semana Santa
+                        </option>
+
+                        <option value="Dia de la Madre" {% if producto.temporada=='Dia de la Madre' %}selected{% endif
+                            %}>
+                            Día de la Madre
+                        </option>
+
+                        <option value="Dia del Padre" {% if producto.temporada=='Dia del Padre' %}selected{% endif %}>
+                            Día del Padre
+                        </option>
+
+                        <option value="Dia del Niño" {% if producto.temporada=='Dia del Niño' %}selected{% endif %}>
+                            Día del Niño
+                        </option>
+
+                        <option value="Halloween" {% if producto.temporada=='Halloween' %}selected{% endif %}>
+                            Halloween
+                        </option>
+
+                        <option value="San Valentin" {% if producto.temporada=='San Valentin' %}selected{% endif %}>
+                            San Valentín
+                        </option>
+
+                        <option value="Cumpleaños" {% if producto.temporada=='Cumpleaños' %}selected{% endif %}>
+                            Cumpleaños
+                        </option>
+
+                        <option value="Aniversario" {% if producto.temporada=='Aniversario' %}selected{% endif %}>
+                            Aniversario
+                        </option>
+                    </select>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label fw-bold">Descripción</label>
+                    <textarea name="descripcion" class="form-control" rows="3"
+                        placeholder="Descripción del producto">{{ producto.descripcion }}</textarea>
+                </div>
+
+                <div class="mb-4">
+                    <label class="form-label fw-bold">Imagen</label>
+                    <input type="file" name="imagen" class="form-control" accept="image/*">
+                    <small class="text-muted">Dejar vacío para mantener la imagen actual</small>
+                </div>
+
+                <div class="d-flex justify-content-between gap-3">
+                    <a href="/producto?seccion=productos" class="btn btn-secondary flex-grow-1">Volver</a>
+                    <button type="submit" class="btn btn-success flex-grow-1">Guardar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <footer class="pie-pagina">
+        <span>© Copyright <span id="anioActual"></span> – Panadería y Pastelería Manabita</span>
+    </footer>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="/static/js/anioactual.js"></script>
+</body>
+
+</html>
